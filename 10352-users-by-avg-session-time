@@ -1,0 +1,17 @@
+# 10352 users-by-avg-session-time https://platform.stratascratch.com/coding/10352-users-by-avg-session-time?tabname=question 
+import pandas as pd
+import numpy as np 
+
+df = facebook_web_log
+df["date"] = df.timestamp.dt.date
+
+df_load = df[df.action == "page_load"].sort_values(["user_id", "timestamp"])
+df_load = df_load.groupby(["user_id", "date"]).tail(1)
+
+df_exit = df[df.action == "page_exit"].sort_values(["user_id", "timestamp"])
+df_exit = df_exit.groupby(["user_id", "date"]).head(1)
+
+result = pd.merge(df_load, df_exit, how="inner", on=["user_id", "date"])
+result["session_time"] = result["timestamp_y"] - result["timestamp_x"]
+
+result.groupby("user_id")["session_time"].agg(lambda x: np.mean(x)).reset_index()
