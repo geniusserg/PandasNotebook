@@ -1,0 +1,11 @@
+# Import your libraries
+# https://platform.stratascratch.com/coding/10351-activity-rank?code_type=2
+import pandas as pd
+
+# Start writing code
+ems_count = google_gmail_emails.groupby("from_user", as_index=False).count()[["from_user", "id"]]
+ems_count = ems_count.rename(columns={"id": "emails"})
+ems_count = ems_count.sort_values(["emails", "from_user"], ascending=[False, True])
+ems_count = ems_count.reset_index(drop=True)
+ems_count["rank"] = ems_count.index + 1
+ems_count = ems_count[["rank", "from_user", "emails"]]
