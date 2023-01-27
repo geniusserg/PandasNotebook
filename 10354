@@ -6,3 +6,8 @@ https://platform.stratascratch.com/coding/10354-most-profitable-companies?tabnam
 
 import pandas as pd
 forbes_global_2010_2014.nlargest(3, ['profits'])[["company", "profits"]]
+
+# Start writing code
+wks = worker[worker["salary"] == worker["salary"].max()]
+data = pd.merge(wks, title, left_on="worker_id", right_on="worker_ref_id", how="inner").
+       sort_values("worker_title", ascending = False).head(3)["worker_title"]
